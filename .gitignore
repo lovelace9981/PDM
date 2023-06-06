@@ -1,0 +1,4 @@
+kivy_venv/
+NoteApp/__pycache__
+tutorial1/
+.buildozer/
