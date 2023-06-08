@@ -21,6 +21,11 @@ class ScreenNote(Screen):
             # Nombre de la nota prefijado
             self.defLayout()
 
+    def main_menu(self, instance):
+        sm = App.get_running_app().root
+        sm.current = "Menu"
+
+
     def defLayout(self):
         layout = BoxLayout(orientation='vertical')
         # Parte superior
@@ -36,6 +41,9 @@ class ScreenNote(Screen):
         # Parte inferior
         bottom_layout = BoxLayout(orientation='horizontal', size_hint=(1, 0.1))
         back_button = Button(text=f'Salir de {self.name}')
+        # Preparamos el boton para volver al menu principal
+        back_button.bind(on_release=self.main_menu)
+
         bottom_layout.add_widget(back_button)
 
         # Agregar los layouts al layout principal

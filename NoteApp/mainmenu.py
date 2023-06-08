@@ -198,10 +198,10 @@ class NoteApp(App):
 
         # Creamos gestor de pantallas
         self.sm = ScreenManager() 
-        screen = MainMenu(name="Menu Principal")
+        screen = MainMenu(name="Menu")
 
         self.sm.add_widget(screen)
-        self.sm.current = "Menu Principal"
+        self.sm.current = "Menu"
         return self.sm
 
 if __name__ == '__main__':
