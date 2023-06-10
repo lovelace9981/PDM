@@ -6,27 +6,44 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 
-class BackButton(Button):
-    def __init__(self, name, **kwargs):
-        pass
-
-    def back(self):
-        pass
-
-
 class ScreenNote(Screen):
+    """
+    Clase ScreenNote que hereda de Screen.
+    
+    Esta clase define el comportamiento y los elementos visuales de la pantalla de la nota-
+
+    Métodos:
+        __init__(name, **kwargs): Constructor de la clase ScreenNote.
+        main_menu(instance): Gestiona el comportamiento del botón que lleva de regreso al menú principal.
+        defLayout(): Define la disposición de los elementos en la pantalla.
+    """
     def __init__(self, name, **kwargs):
-            super(ScreenNote, self).__init__(**kwargs)
-            self.name = name
-            # Nombre de la nota prefijado
-            self.defLayout()
+        """
+        Constructor de la clase ScreenNote.
+
+        Args:
+            name (str): Nombre de la pantalla de notas. Recogido desde donde se haya creado.
+        """
+        super(ScreenNote, self).__init__(**kwargs)
+        self.name = name
+        # Nombre de la nota prefijado
+        self.defLayout()
 
     def main_menu(self, instance):
+        """
+        Método que gestiona el comportamiento del botón que lleva de regreso al menú principal.
+
+        Args:
+            instance: Botón "Volver al menú principal" que ha sido pulsado.
+        """
         sm = App.get_running_app().root
         sm.current = "Menu"
 
 
     def defLayout(self):
+        """
+        Método que define la disposición de los elementos en la pantalla de la nota actual.
+        """
         layout = BoxLayout(orientation='vertical')
         # Parte superior
         top_layout = BoxLayout(orientation='horizontal', size_hint_y=0.1)

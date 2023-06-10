@@ -9,7 +9,23 @@ from kivy.core.window import Window
 
 
 class MainLayout(BoxLayout):
+    """
+    Clase MainLayout que hereda de BoxLayout.
+    
+    Esta clase define el comportamiento y los elementos visuales del diseño principal de la aplicación SavingsApp.
+
+    Métodos:
+        __init__(**kwargs): Constructor de la clase MainLayout.
+        check_mod_obligation(instance, maxobligation, content): Comprueba y modifica la obligación.
+        mod_obligation(instance, nameobligation, maxobligation): Modifica la obligación.
+        show_add_obligation_popup(instance): Muestra un popup para añadir una nueva obligación.
+        add_obligation(instance, content): Añade una nueva obligación.
+        reset_available(instance): Restablece los valores disponibles.
+    """
     def __init__(self, **kwargs):
+        """
+        Constructor de la clase MainLayout. Definimos el espaciado dentro del layout, el scroll, los botones.
+        """
         super(MainLayout, self).__init__(**kwargs)
         self.orientation = "vertical"
         self.padding = 10
@@ -39,19 +55,43 @@ class MainLayout(BoxLayout):
         self.add_widget(buttons_layout)
 
     def check_mod_obligation(self, instance, maxobligation, content):
-        int_obligation_new = int(self.obligation_mod_input.text)
-        int_max_obligation = int(maxobligation)
-        if (int_obligation_new <= int_max_obligation and int_obligation_new >= 0):
-            instance.text = self.obligation_mod_input.text
-            self.popup.dismiss()
-        else:
-            label = Label(text=f"Debe estar entre 0 y {maxobligation}!", color=(1,0,0,1))
+        """
+        Método que comprueba y modifica la obligación.
+
+        Args:
+            instance: Obligación que está siendo modificada, es el botón.
+            maxobligation: Máxima obligación permitida, usado para que al modificar, no sobrepase el valor introducido.
+            content: Contenido del widget padre, para quie podamos modificar el PopUp y añadir un Label de error.
+        """
+        try:
+            int_obligation_new = int(self.obligation_mod_input.text)
+            int_max_obligation = int(maxobligation)
+            if (int_obligation_new <= int_max_obligation and int_obligation_new >= 0):
+                instance.text = self.obligation_mod_input.text
+                self.popup.dismiss()
+            else:
+                label = Label(text=f"Debe estar entre 0 y {maxobligation}!", color=(1,0,0,1))
+                # Comprobamos que exista
+                if (label not in content.children):
+                content.add_widget(label)
+                # print("Incorrecto")
+        except ValueError:
             # Comprobamos que exista
             if (label not in content.children):
-             content.add_widget(label)
-            # print("Incorrecto")
+                content.add_widget(label)
 
     def mod_obligation(self, instance, nameobligation, maxobligation):
+        """
+        Método que modifica la obligación. Cuando pulsamos Cambiar llamamos al método check_mod_obligation para comprobar que los valores sean correctos.
+
+        Args:
+            instance: Obligación que está siendo modificada.
+            nameobligation: Nombre de la obligación.
+            maxobligation: Máxima obligación permitida.
+        """
+
+        label_value = Label(text=f"No has puesto ningun dato", color=(1,0,0,1))
+
         self.obligation_mod_input = TextInput(multiline=False, text=instance.text)
         content = BoxLayout(orientation="vertical")
         content.add_widget(Label(text="Modificar:"))
@@ -63,6 +103,13 @@ class MainLayout(BoxLayout):
         self.popup.open()
 
     def show_add_obligation_popup(self, instance):
+        """
+        Método que añade una nueva obligación. Cuando se pulsa en Guardar, se llama a add_obligation, para hacer la comprobación de la lógica.
+
+        Args:
+            instance: Botón "Guardar" que ha sido pulsado.
+            content: Contenido del widget padre.
+        """
         self.obligation_name_input = TextInput(multiline=False)
         self.obligation_budget_input = TextInput(multiline=False)
 
@@ -78,10 +125,16 @@ class MainLayout(BoxLayout):
         self.popup.open()
 
     def add_obligation(self, instance, content):
+        """
+        Método que restablece los valores disponibles d
+
+        Args:
+            instance: Botón "Reiniciar Disponible" que ha sido pulsado.
+        """
         obligation_name = self.obligation_name_input.text
         obligation_budget = self.obligation_budget_input.text
         label_neg = Label(text=f"Has puesto un numero negativo", color=(1,0,0,1))
-        label_value = Label(text=f"Has puesto ningun dato", color=(1,0,0,1))
+        label_value = Label(text=f"No has puesto ningun dato", color=(1,0,0,1))
 
         # Control de errores en blanco
         try:
@@ -106,6 +159,13 @@ class MainLayout(BoxLayout):
 
 
     def reset_available(self, instance):
+        """
+        Método que restablece los valores de las obligaciones.
+
+        Args:
+            instance: Botón "Reiniciar Disponible" que ha sido pulsado.
+        """
+
         # Logic to reset available values
         for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
             if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
@@ -117,11 +177,25 @@ class MainLayout(BoxLayout):
                     elements[2].text = value
 
 class SavingsApp(App):
+    """
+    Clase SavingsApp que hereda de la clase App de Kivy.
+    
+    Esta es la clase principal de la aplicación SavingsApp. Define el layout principal 
+    de la aplicación, el icono y el título de la ventana.
+
+    Métodos:
+        build(): Método heredado de la clase App de Kivy que construye la aplicación.
+    """
     def build(self):
+        """
+        Método que constructor de la aplicación.
+        
+        Returns:
+            MainLayout: Layout principal de la aplicación.
+        """
         self.root = MainLayout()
         self.icon = 'icon/app.png'
         self.title = 'SavingsApp'
-        # Window.clearcolor = (1, 1, 1, 1)  # White background
         return self.root
 
 

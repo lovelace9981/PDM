@@ -12,7 +12,15 @@ import statistics
 import math 
 
 class RoundedButton(Button):
+    """
+    Clase RoundedButton que hereda de la clase Button de Kivy. 
+    Esta clase representa un botón con bordes redondeados y un color de fondo específico.
+    """
     def __init__(self, **kwargs):
+        """
+        Constructor de la clase RoundedButton. 
+        Inicializa el botón con un color de fondo y un color de texto específicos.
+        """
         super().__init__(**kwargs)
         self.background_normal = ''
         # BACKGROUND
@@ -21,6 +29,10 @@ class RoundedButton(Button):
         self.color = (0,0,0,1)
 
     def on_draw(self):
+        """
+        Método on_draw que se llama cuando se dibuja el botón. 
+        Establece el color del botón y dibuja un rectángulo redondeado en la posición y tamaño del botón.
+        """
         with self.canvas.before:
             Color(rgb_to_kivy_color(165,214,167))  # establece el color a rojo
             RoundedRectangle(pos=self.pos, size=self.size, radius=[60,])
@@ -29,7 +41,15 @@ def rgb_to_kivy_color(r,g,b):
     return r / 255., g / 255., b / 255., 1
 
 class StatApp(App):
+    """
+    Clase StatApp que hereda de la clase App de Kivy. 
+    Esta clase representa una aplicación para calcular estadísticas.
+    """
     def build(self):
+        """
+        Método build que se llama cuando se construye la aplicación. 
+        Inicializa la aplicación con un diseño principal, un título, un icono y varios botones y entradas de texto.
+        """
         self.icon = 'icon/app.png'
         self.title = 'StatCalc'
         # Estadisticos
@@ -79,6 +99,10 @@ class StatApp(App):
         return main_layout
 
     def quantil(self, instance):
+        """
+        Método quantil que se llama cuando se presiona el botón de cuantiles. 
+        Calcula los cuantiles de los datos estadísticos y los muestra en un popup.
+        """
         self.stat_data = [float(text_input.text) for text_input in self.scroll_layout.children[::-1]]
         list_quantil = statistics.quantiles(self.stat_data, n=4, method='exclusive')
         popup_layout_base = BoxLayout(orientation='vertical')
@@ -98,6 +122,10 @@ class StatApp(App):
         popup.open()
     
     def decil(self, instance):
+        """
+        Método decil que se llama cuando se presiona el botón de deciles. 
+        Calcula los deciles de los datos estadísticos y los muestra en un popup.
+        """
         self.stat_data = [float(text_input.text) for text_input in self.scroll_layout.children[::-1]]
         list_quantil = statistics.quantiles(self.stat_data, n=10, method='exclusive')
         popup_layout_base = BoxLayout(orientation='vertical')
@@ -117,12 +145,20 @@ class StatApp(App):
         popup.open()
 
     def add_stat_input(self, instance):
+        """
+        Método add_stat_input que se llama cuando se presiona el botón de nuevo. 
+        Añade una nueva entrada de texto para los datos estadísticos.
+        """
         new_text_input = TextInput(text="0", multiline=False, size_hint_y=None, height=30, halign="center")
         self.scroll_layout.add_widget(new_text_input)
         # Aniadimos los datos estadisticos
         self.stat_data.append(0)
 
     def calculate(self, instance):
+        """
+        Método calculate que se llama cuando se presiona el botón de calcular. 
+        Calcula varias estadísticas de los datos estadísticos y las muestra en un popup.
+        """
         # Recorremos de nuevo los datos para obtenerlos de manera actualizada
         self.stat_data = [float(text_input.text) for text_input in self.scroll_layout.children[::-1]]
         # Calculo de la media
