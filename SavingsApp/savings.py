@@ -20,7 +20,7 @@ class MainLayout(BoxLayout):
 
         # Columns header
         header_layout = BoxLayout(orientation="horizontal", size_hint=(1, 0.1))
-        header_layout.add_widget(Label(text="Nombre de Obligación"))
+        header_layout.add_widget(Label(text="Obligación"))
         header_layout.add_widget(Label(text="Presupuesto"))
         header_layout.add_widget(Label(text="Disponible"))
         self.add_widget(header_layout)
@@ -45,7 +45,7 @@ class MainLayout(BoxLayout):
             instance.text = self.obligation_mod_input.text
             self.popup.dismiss()
         else:
-            label = Label(text=f"Incorrecto debe estar entre 0 y {maxobligation}!", color=(1,0,0,1))
+            label = Label(text=f"Debe estar entre 0 y {maxobligation}!", color=(1,0,0,1))
             # Comprobamos que exista
             if (label not in content.children):
              content.add_widget(label)
@@ -80,8 +80,8 @@ class MainLayout(BoxLayout):
     def add_obligation(self, instance, content):
         obligation_name = self.obligation_name_input.text
         obligation_budget = self.obligation_budget_input.text
-        label_neg = Label(text=f"Incorrecto!! has puesto un numero negativo", color=(1,0,0,1))
-        label_value = Label(text=f"Incorrecto!! no has puesto ningun dato", color=(1,0,0,1))
+        label_neg = Label(text=f"Has puesto un numero negativo", color=(1,0,0,1))
+        label_value = Label(text=f"Has puesto ningun dato", color=(1,0,0,1))
 
         # Control de errores en blanco
         try:

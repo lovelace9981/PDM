@@ -73,8 +73,7 @@ class NoteButton(TouchRippleBehavior, Button):
                     deletebtn.bind(on_release=self.behavior_popup_deletebtn)
                     self.current_popup.open()
             else:
-                print(f"Open Note {self.text}")
-                # Obtenemos el screenmanager de la riaiz
+                # Obtenemos el screenmanager de la raiz
                 sm = App.get_running_app().root
 
                 # Comprobamos que exista esa pantalla
@@ -124,7 +123,7 @@ class MainMenu(Screen):
         
         # Bottom
         bottomBoxLayout = BoxLayout(orientation='horizontal')
-        createbtn = Button(text='Crear Nota', size_hint_y=None, height=40)
+        createbtn = Button(text='Crear', size_hint_y=None, height=40)
         closebtn = Button(text='Salir', size_hint_y=None, height=40)
         bottomBoxLayout.add_widget(createbtn)
         bottomBoxLayout.add_widget(closebtn)
@@ -134,7 +133,7 @@ class MainMenu(Screen):
 
         # POPUP de introducion de texto
         popup = Popup(
-            title="Creando nueva lista de notas",
+            title="Creando nueva nota",
             content=layout,
             size_hint=(None,None),
             size=(200,200)

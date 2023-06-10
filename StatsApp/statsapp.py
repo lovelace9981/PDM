@@ -102,6 +102,7 @@ class StatApp(App):
         list_quantil = statistics.quantiles(self.stat_data, n=10, method='exclusive')
         popup_layout_base = BoxLayout(orientation='vertical')
         popup_layout = GridLayout(cols=9)
+        
         n_q = 0
         for q in list_quantil:
             popup_layout.add_widget(Label(text=f"{n_q+1}"))
@@ -111,7 +112,7 @@ class StatApp(App):
             popup_layout.add_widget(Label(text=f"{q}"))
         popup_layout_base.add_widget(popup_layout)
         popup_layout_base.add_widget(Button(text="OK", on_release=lambda x: popup.dismiss()))
-        popup = Popup(title="Deciles", content=popup_layout_base, size_hint=(None, None), size=(400, 200))
+        popup = Popup(title="Deciles", content=popup_layout_base, size_hint=(0.9, 0.5))
         popup.title_align = 'center'
         popup.open()
 
