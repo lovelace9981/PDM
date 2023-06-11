@@ -62,7 +62,7 @@ class StatApp(App):
         self.scroll_layout = BoxLayout(orientation="vertical", size_hint_y=None)
         self.scroll_layout.bind(minimum_height=self.scroll_layout.setter('height'))
         
-        self.text_input = TextInput(text="0", multiline=False, size_hint_y=None, height=30, halign="center")
+        self.text_input = TextInput(text="0", multiline=False, size_hint_y=None, height=40, halign="center")
         self.scroll_layout.add_widget(self.text_input)
 
         scroll_view = ScrollView(size_hint=(1, 0.8))
@@ -71,7 +71,6 @@ class StatApp(App):
 
         button_layout = BoxLayout(size_hint=(1,0.1), spacing=5)
         
-
         # self.new_stat_button = Button(text="Nuevo")
         self.new_stat_button = RoundedButton(text="Nuevo")
         self.new_stat_button.bind(on_release=self.add_stat_input)
@@ -149,7 +148,7 @@ class StatApp(App):
         Método add_stat_input que se llama cuando se presiona el botón de nuevo. 
         Añade una nueva entrada de texto para los datos estadísticos.
         """
-        new_text_input = TextInput(text="0", multiline=False, size_hint_y=None, height=30, halign="center")
+        new_text_input = TextInput(text="0", multiline=False, size_hint_y=None, height=40, halign="center")
         self.scroll_layout.add_widget(new_text_input)
         # Aniadimos los datos estadisticos
         self.stat_data.append(0)
@@ -186,7 +185,7 @@ class StatApp(App):
         # popup_layout.add_widget(Label(text=f"Desviacion tipica - 2: {devs_tipica_python}"))
 
         popup_layout.add_widget(Button(text="OK", on_release=lambda x: popup.dismiss()))
-        popup = Popup(title="Resultados", content=popup_layout, size_hint=(None, None), size=(400, 400))
+        popup = Popup(title="Resultados", content=popup_layout, size_hint=(0.9, 0.7))
         popup.title_align = 'center'
 
         popup.open()
