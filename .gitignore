@@ -2,3 +2,15 @@ kivy_venv/
 NoteApp/__pycache__
 tutorial1/
 .buildozer/
+
+NoteApp/.buildozer
+SavingsApp/.buildozer
+StatsApp/.buildozer
+
+NoteApp/bin
+SavingsApp/bin
+StatsApp/bin
+
+NoteApp/buildozer.spec
+SavingsApp/buildozer.spec
+StatsApp/buildozer.spec

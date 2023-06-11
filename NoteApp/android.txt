@@ -1,0 +1,3 @@
+title=NoteApp
+author=Pedro
+orientation=portrait
