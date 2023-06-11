@@ -73,8 +73,8 @@ class MainLayout(BoxLayout):
                 label = Label(text=f"Debe estar entre 0 y {maxobligation}!", color=(1,0,0,1))
                 # Comprobamos que exista
                 if (label not in content.children):
-                content.add_widget(label)
-                # print("Incorrecto")
+                    content.add_widget(label)
+                    # print("Incorrecto")
         except ValueError:
             # Comprobamos que exista
             if (label not in content.children):

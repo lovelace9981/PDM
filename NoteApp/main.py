@@ -110,8 +110,8 @@ class NoteButton(TouchRippleBehavior, Button):
                     self.current_popup = Popup(
                         title='Delete note? '+ self.text,
                         content=layout,
-                        size_hint=(None,None),
-                        size=(200,200)
+                        size_hint=(0.3,0.3)
+                        # size=(200,200)
                     )
 
                     closebtn.bind(on_release=self.behavior_popup_closebtn)
@@ -212,8 +212,8 @@ class MainMenu(Screen):
         popup = Popup(
             title="Creando nueva nota",
             content=layout,
-            size_hint=(None,None),
-            size=(200,200)
+            size_hint=(0.3,0.3)
+            # size=(200,200)
         )
 
         createbtn.bind(on_release=lambda x: self.behavior_btn_create_note_popup(layout, popup, notetitle, grid))
