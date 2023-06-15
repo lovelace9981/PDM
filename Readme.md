@@ -4,7 +4,7 @@
 
 Es necesario para poder instalar las librerías de manera aislada del sistema operativo.
 ```bash
-sudo apt install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev gradle openjdk-17-jdk python3-kivy virtualenv
+sudo apt install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev gradle openjdk-17-jdk python3-kivy virtualenv xclip
 # Creamos la carpeta del entorno en la raíz del proyecto
 python3 -m virtualenv kivy_venv
 

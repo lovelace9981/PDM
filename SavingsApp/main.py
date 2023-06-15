@@ -52,7 +52,47 @@ class MainLayout(BoxLayout):
         buttons_layout = BoxLayout(orientation="horizontal", size_hint=(1, 0.2))
         buttons_layout.add_widget(Button(text="Añadir Obligación", on_release=self.show_add_obligation_popup))
         buttons_layout.add_widget(Button(text="Reiniciar Disponible", on_release=self.reset_available))
+        buttons_layout.add_widget(Button(text="Ver restante", on_release=self.diff_restante))
+
         self.add_widget(buttons_layout)
+    
+    def behavior_popup_closebtn(self, instance):
+        """
+        Método que gestiona el comportamiento del botón "Cerrar" del Popup.
+
+        Args:
+            instance: Botón "Cerrar" que ha sido pulsado.
+        """
+        self.popup.dismiss()
+        self.popup = None
+
+    def diff_restante(self, instance):
+        """
+        Método que restablece los valores de las obligaciones.
+
+        Args:
+            instance: Botón "Reiniciar Disponible" que ha sido pulsado.
+        """
+        # Logic to reset available values
+        restante = 0
+        for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
+            if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
+                elements = row_layout.children[::-1] # Recorre todos los botones en el BoxLayout en sentido inverso
+                
+                if isinstance(elements[2], Button):
+                    value_button = elements[2].text  
+                
+                restante += int(value_button)
+
+        # Popup De mostrar restante
+        content = BoxLayout(orientation="vertical")
+        content.add_widget(Label(text=f"Te quedan:{restante} $"))
+        btn_exit = Button(text="Salir", on_release=self.behavior_popup_closebtn)
+        content.add_widget(btn_exit)
+
+        self.popup = Popup(title="Ahorro conseguido.", content=content, size_hint=(0.4, 0.4))
+        self.popup.open()
+
 
     def check_mod_obligation(self, instance, maxobligation, content):
         """
@@ -165,7 +205,6 @@ class MainLayout(BoxLayout):
         Args:
             instance: Botón "Reiniciar Disponible" que ha sido pulsado.
         """
-
         # Logic to reset available values
         for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
             if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
