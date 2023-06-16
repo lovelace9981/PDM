@@ -6,7 +6,11 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
+# Implementacion de graficos
+import plotly.graph_objects as go
+from kivy.uix.image import Image
 
+import os
 
 class MainLayout(BoxLayout):
     """
@@ -63,8 +67,37 @@ class MainLayout(BoxLayout):
         Args:
             instance: Botón "Cerrar" que ha sido pulsado.
         """
+        for element in self.popup.children[:]:
+            self.popup.remove_widget(element)
+        os.remove('total_gauge.png')
+
         self.popup.dismiss()
-        self.popup = None
+        del self.popup
+
+    def draw_total_gauge(self, restante, total, filename):
+        current_value = restante
+        min_value = 0
+        max_value = total 
+        fig = go.Figure(go.Indicator(
+            mode = "gauge+number",
+            value = current_value,
+            gauge = {'axis': {'range': [min_value, max_value]},
+                    'bar': {'color': "black"},
+                    'steps' : [
+                        {'range': [0, (0.25*max_value)], 'color': "red"},
+                        {'range': [(0.25*max_value), (0.50*max_value)], 'color': "orange"},
+                        {'range': [(0.50*max_value), (0.80*max_value)], 'color': "green"},
+                        {'range': [(0.80*max_value),(1*max_value)], 'color': "blue"}
+                        ],},
+            domain = {'x': [0, 1], 'y': [0, 1]},
+            title = {'text': "Ahorro"}
+            )
+        )
+
+        try:
+            fig.write_image(filename)
+        except Exception as e:
+            print("Error al escribir la imagen:", e)
 
     def diff_restante(self, instance):
         """
@@ -74,23 +107,29 @@ class MainLayout(BoxLayout):
             instance: Botón "Reiniciar Disponible" que ha sido pulsado.
         """
         # Logic to reset available values
+        total = 0
         restante = 0
         for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
             if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
                 elements = row_layout.children[::-1] # Recorre todos los botones en el BoxLayout en sentido inverso
                 
-                if isinstance(elements[2], Button):
-                    value_button = elements[2].text  
-                
-                restante += int(value_button)
+                # Aniadimos el valor total
+                if isinstance(elements[1], Label):
+                    total += int(elements[1].text)
 
+                if isinstance(elements[2], Button):
+                    restante += int(elements[2].text  )
+                
+
+        self.draw_total_gauge(restante, total, filename='total_gauge.png')
         # Popup De mostrar restante
         content = BoxLayout(orientation="vertical")
-        content.add_widget(Label(text=f"Te quedan:{restante} $"))
-        btn_exit = Button(text="Salir", on_release=self.behavior_popup_closebtn)
+        image = Image(source='total_gauge.png',size_hint=(0.9,1))
+        image.reload()
+        content.add_widget(image)
+        btn_exit = Button(text="Salir", size_hint=(0.1,0.1), on_release=self.behavior_popup_closebtn)
         content.add_widget(btn_exit)
-
-        self.popup = Popup(title="Ahorro conseguido.", content=content, size_hint=(0.4, 0.4))
+        self.popup = Popup(title="Ahorro conseguido.", content=content, size_hint=(1, 1))
         self.popup.open()
 
 
