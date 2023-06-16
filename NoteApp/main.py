@@ -130,7 +130,7 @@ class NoteButton(TouchRippleBehavior, Button):
                 # No existe
                 if screen_note is None:
                     # Aniadimos una nueva pantalla
-                    new_screen = ScreenNote(name=self.text)
+                    new_screen = ScreenNote(name=self.text, actual=0)
                     sm.add_widget(new_screen)
                     sm.current = self.text
                 else:
