@@ -17,7 +17,8 @@ source kivy_venv/bin/activate
 python3 -m pip install --upgrade pip setuptools virtualenv
 # Instalando las librerías de Kivy
 python3 -m pip install pyjnius "kivy[base]"
-
+# Instalando las librerias graphics para el plot
+python3 -m pip install plotly kaleido
 ```
 
 # Crear un APK - Crear el entorno de buildozer
