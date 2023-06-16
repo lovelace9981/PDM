@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -9,8 +10,10 @@ from kivy.core.window import Window
 # Implementacion de graficos
 import plotly.graph_objects as go
 from kivy.uix.image import Image
-
+# Para las imagenes
 import os
+# Boton especial para borrado
+from ButtonSavings import ButtonSavings
 
 class MainLayout(BoxLayout):
     """
@@ -75,6 +78,9 @@ class MainLayout(BoxLayout):
         del self.popup
 
     def draw_total_gauge(self, restante, total, filename):
+        """
+        Metodo que procesa los graficos de las obligaciones en forma de acelerometro.
+        """
         current_value = restante
         min_value = 0
         max_value = total 
@@ -107,30 +113,32 @@ class MainLayout(BoxLayout):
             instance: Botón "Reiniciar Disponible" que ha sido pulsado.
         """
         # Logic to reset available values
-        total = 0
-        restante = 0
-        for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
-            if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
-                elements = row_layout.children[::-1] # Recorre todos los botones en el BoxLayout en sentido inverso
-                
-                # Aniadimos el valor total
-                if isinstance(elements[1], Label):
-                    total += int(elements[1].text)
+        num_children = len(self.scroll_layout.children)
+        if (num_children > 0):
+            total = 0
+            restante = 0
+            for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
+                if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
+                    elements = row_layout.children[::-1] # Recorre todos los botones en el BoxLayout en sentido inverso
+                    
+                    # Aniadimos el valor total
+                    if isinstance(elements[1], Label):
+                        total += int(elements[1].text)
+                    # Obtenemos el restante de los botones
+                    if isinstance(elements[2], Button):
+                        restante += int(elements[2].text)
+                    
 
-                if isinstance(elements[2], Button):
-                    restante += int(elements[2].text  )
-                
-
-        self.draw_total_gauge(restante, total, filename='total_gauge.png')
-        # Popup De mostrar restante
-        content = BoxLayout(orientation="vertical")
-        image = Image(source='total_gauge.png',size_hint=(0.9,1))
-        image.reload()
-        content.add_widget(image)
-        btn_exit = Button(text="Salir", size_hint=(0.1,0.1), on_release=self.behavior_popup_closebtn)
-        content.add_widget(btn_exit)
-        self.popup = Popup(title="Ahorro conseguido.", content=content, size_hint=(1, 1))
-        self.popup.open()
+            self.draw_total_gauge(restante, total, filename='total_gauge.png')
+            # Popup De mostrar restante
+            content = BoxLayout(orientation="vertical")
+            image = Image(source='total_gauge.png',size_hint=(0.9,1))
+            image.reload()
+            content.add_widget(image)
+            btn_exit = Button(text="Salir", size_hint=(0.1,0.1), on_release=self.behavior_popup_closebtn)
+            content.add_widget(btn_exit)
+            self.popup = Popup(title="Ahorro conseguido.", content=content, size_hint=(1, 1))
+            self.popup.open()
 
 
     def check_mod_obligation(self, instance, maxobligation, content):
@@ -218,17 +226,23 @@ class MainLayout(BoxLayout):
         # Control de errores en blanco
         try:
             int_obligation_budget = int(obligation_budget)
+            # Controlador de que el presupuesto sea mayor que cero
             if (int_obligation_budget > 0):
+                # Layout
                 row_layout = BoxLayout(orientation="horizontal", size_hint_y=None, height=50)
-                row_layout.add_widget(Label(text=obligation_name))
+                # Boton de nombre, de clase ButtonSavings
+                btn_name = ButtonSavings(text=obligation_name)
+                row_layout.add_widget(btn_name)
+                # Label de presupueso tope
                 row_layout.add_widget(Label(text=obligation_budget))
+                # Boton de obligaciones con su modificador
                 btn_obligation = Button(text=obligation_budget)
                 btn_obligation.bind(on_release=lambda x: self.mod_obligation(btn_obligation, obligation_name, obligation_budget))
                 row_layout.add_widget(btn_obligation)
                 self.scroll_layout.add_widget(row_layout)
                 self.popup.dismiss()
             else:
-                # Comprobamos que exista
+                # Comprobamos que exista, el texto de control de mayor que cero
                 if (label not in content.children):
                     content.add_widget(label)
         except ValueError:
@@ -245,14 +259,16 @@ class MainLayout(BoxLayout):
             instance: Botón "Reiniciar Disponible" que ha sido pulsado.
         """
         # Logic to reset available values
-        for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
-            if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
-                elements = row_layout.children[::-1] # Recorre todos los botones en el BoxLayout en sentido inverso
-                if isinstance(elements[1], Label):
-                    value = elements[1].text
-                
-                if isinstance(elements[2], Button):
-                    elements[2].text = value
+        num_children = len(self.scroll_layout.children)
+        if (num_children > 0):
+            for row_layout in self.scroll_layout.children[:]:  # Recorre todos los BoxLayout en el ScrollView
+                if isinstance(row_layout, BoxLayout):  # Verifica si el widget es un BoxLayout
+                    elements = row_layout.children[::-1] # Recorre todos los botones en el BoxLayout en sentido inverso
+                    if isinstance(elements[1], Label):
+                        value = elements[1].text
+                    
+                    if isinstance(elements[2], Button):
+                        elements[2].text = value
 
 class SavingsApp(App):
     """
