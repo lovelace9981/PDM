@@ -10,7 +10,7 @@ class ScreenNote(Screen):
     """
     Clase ScreenNote que hereda de Screen.
     
-    Esta clase define el comportamiento y los elementos visuales de la pantalla de la nota-
+    Esta clase define el comportamiento y los elementos visuales de la pantalla de la nota
 
     Métodos:
         __init__(name, **kwargs): Constructor de la clase ScreenNote.
