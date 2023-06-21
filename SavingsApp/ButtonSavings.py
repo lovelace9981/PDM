@@ -22,7 +22,7 @@ class ButtonSavings(TouchRippleBehavior, Button):
         __init__(**kwargs): Constructor de la clase ButtonSavings.
         behavior_popup_closebtn(instance): Gestiona el comportamiento del botón "Cerrar" del Popup.
         behavior_popup_deletebtn(instance): Gestiona el comportamiento del botón "Borrar" del Popup.
-        behavior_popup_editbtn(instance): Gestiona el coomportamiento del bot'on "Editar" del PopUp
+        behavior_popup_editbtn(instance): Gestiona el coomportamiento del botón "Editar" del PopUp
         on_touch_down(touch): Define el comportamiento al pulsar el botón.
         on_touch_up(touch): Define el comportamiento al soltar el botón.
     """
@@ -63,7 +63,7 @@ class ButtonSavings(TouchRippleBehavior, Button):
     
     def behavior_popup_deletebtn(self, instance):
         """
-        Método que gestiona el comportamiento del popup de borrado, elimina la l'inea de la Obligacion
+        Método que gestiona el comportamiento del popup de borrado, elimina la línea de la Obligacion
 
         Args:
             instance: Botón "Borrar" que ha sido pulsado.
