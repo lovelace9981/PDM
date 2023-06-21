@@ -42,6 +42,12 @@ class ScreenNote(Screen):
         sm.current = "Menu"
 
     def next_note(self, instance):
+        """
+        Método que gestiona la logica de ir a la siguiente nota
+
+        Args:
+            instance: Botón de siguiente Nota pulsado
+        """
         # Creamos una nota aniadiendola con un incremento
         next = self.actual + 1
         

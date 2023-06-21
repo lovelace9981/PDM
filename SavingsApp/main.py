@@ -18,6 +18,7 @@ from ButtonSavings import ButtonSavings
 class MainLayout(BoxLayout):
     """
     Clase MainLayout que hereda de BoxLayout.
+    Usa ButtonSavings, como botones especiales que heredan de dos clases.
     
     Esta clase define el comportamiento y los elementos visuales del diseño principal de la aplicación SavingsApp.
 

@@ -14,13 +14,15 @@ class ButtonSavings(TouchRippleBehavior, Button):
     """
     Clase ButtonSavings que hereda de TouchRippleBehavior y Button.
     
-    Esta clase define el comportamiento y los elementos visuales de los botones de notas. Esto es debido a que el boton del menú de las notas, 
+    Esta clase define el comportamiento y los elementos visuales de los botones de los nombres de los Savings. 
+    Esto es debido a que el boton del menú de las notas, 
     tiene un comportamiento según la duración de la pulsación.
 
     Métodos:
         __init__(**kwargs): Constructor de la clase ButtonSavings.
         behavior_popup_closebtn(instance): Gestiona el comportamiento del botón "Cerrar" del Popup.
         behavior_popup_deletebtn(instance): Gestiona el comportamiento del botón "Borrar" del Popup.
+        behavior_popup_editbtn(instance): Gestiona el coomportamiento del bot'on "Editar" del PopUp
         on_touch_down(touch): Define el comportamiento al pulsar el botón.
         on_touch_up(touch): Define el comportamiento al soltar el botón.
     """
@@ -38,6 +40,7 @@ class ButtonSavings(TouchRippleBehavior, Button):
     def behavior_popup_closebtn(self, instance):
         """
         Método que gestiona el comportamiento del botón "Cerrar" del Popup.
+        Cierra el popup de manera segura.
 
         Args:
             instance: Botón "Cerrar" que ha sido pulsado.
@@ -47,7 +50,8 @@ class ButtonSavings(TouchRippleBehavior, Button):
 
     def behavior_popup_editbtn(self, instance, label_new):
         """
-        Método que gestiona el comportamiento del botón "Borrar" del Popup.
+        Método que gestiona el comportamiento del botón "Editar" del Popup.
+        Guarda el nombre del boton nuevo, en la instancia.
 
         Args:
             instance: Botón "Borrar" que ha sido pulsado.
@@ -58,24 +62,32 @@ class ButtonSavings(TouchRippleBehavior, Button):
             self.current_popup = None
     
     def behavior_popup_deletebtn(self, instance):
+        """
+        Método que gestiona el comportamiento del popup de borrado, elimina la l'inea de la Obligacion
+
+        Args:
+            instance: Botón "Borrar" que ha sido pulsado.
+        """
         # Comportamiento si borrado obtenemos el padre
         layout_parent = self.parent
         if (isinstance(layout_parent, BoxLayout)):
             self.current_popup.dismiss()
             self.current_popup = None            
-            # Borrando elementos hijos del padre
+            # Borrando elementos hijos del padre, menos a si mismo
             for child in layout_parent.children[:]:
                 if (child is not self):
                     layout_parent.remove_widget(child)
-            # se borra a si mismo y al padre llamando al abuelo
+            # Se borra el boton a si mismo a continuacion, ya que tiene que seguir ejecutando la logica
+            # Esto es porque el abuelo contiene al padre y hay que borrarlo de manera segura.
             layout_parent.remove_widget(self)
             layout_grandparent = layout_parent.parent
             layout_grandparent.remove_widget(layout_parent)
                 
     def on_touch_down(self, touch):
         """
-        Método que define el comportamiento al pulsar el botón. Es el que pone el tiempo inicial de pulsación, 
-        para que cuando el usuario deje de pulsar el botoón se pueda llamar a on_touch_up.
+        Método que define el comportamiento al pulsar el botón hacia abajo. Es el que pone el tiempo inicial de pulsación, 
+        para que cuando el usuario deje de pulsar el botón se pueda llamar a on_touch_up. Llama al metodo heredado con Super. 
+        ya que 
 
         Args:
             touch: Información sobre el evento de toque.
@@ -90,7 +102,7 @@ class ButtonSavings(TouchRippleBehavior, Button):
     def on_touch_up(self, touch):
         """
         Método que define el comportamiento al soltar el botón. Depende de on_touch_down, de manera que podemos determinar la
-        duración de la pulsación para que se introduzca en el nuevo ScreeNote o salte un PopUp para que se elimine la nota.
+        duración de la pulsación para que se introduzca el cambio de nommbre de la Obligacion o salte un PopUp para que se elimine la Obligacion.
 
         Args:
             touch: Información sobre el evento de toque.
